@@ -1,0 +1,36 @@
+{
+  "id": "p-009",
+  "slug": "vibroizolyaciya-floor-silent-20",
+  "name": "Виброизоляция FloorSilent 20",
+  "synonyms": [
+    "floorsilent20",
+    "вибромат",
+    "шумоизоляция пола"
+  ],
+  "tags": [
+    "шумоизоляция",
+    "виброзащита",
+    "склад"
+  ],
+  "type": "insulation",
+  "category": "warehouse",
+  "shortDescription": "Рулонный материал для вибро- и шумоизоляции технологических зон.",
+  "description": "FloorSilent 20 используется под оборудованием и в зонах интенсивного движения для снижения передачи вибрации.",
+  "specs": [
+    {
+      "label": "Толщина",
+      "value": "20 мм"
+    },
+    {
+      "label": "Формат",
+      "value": "рулон 1х10 м"
+    }
+  ],
+  "documents": [
+    {
+      "title": "Руководство по монтажу",
+      "url": "/images/placeholder.svg"
+    }
+  ],
+  "image": "/images/placeholder.svg"
+}

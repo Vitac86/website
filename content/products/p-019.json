@@ -1,0 +1,36 @@
+{
+  "id": "p-019",
+  "slug": "metallicheskaya-panel-perfo-air",
+  "name": "Металлическая панель PERFO AIR",
+  "synonyms": [
+    "perfo air",
+    "перфорированная панель",
+    "панель перфо"
+  ],
+  "tags": [
+    "фасад",
+    "перфорация",
+    "дизайн"
+  ],
+  "type": "metal-panels",
+  "category": "facade",
+  "shortDescription": "Перфорированная фасадная панель для архитектурных решений.",
+  "description": "PERFO AIR совмещает декоративные свойства и функциональность экрана для вентиляционных и фасадных зон.",
+  "specs": [
+    {
+      "label": "Процент перфорации",
+      "value": "18%"
+    },
+    {
+      "label": "Толщина металла",
+      "value": "1.0 мм"
+    }
+  ],
+  "documents": [
+    {
+      "title": "Каталог перфораций",
+      "url": "/images/placeholder.svg"
+    }
+  ],
+  "image": "/images/placeholder.svg"
+}

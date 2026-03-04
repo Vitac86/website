@@ -1,0 +1,36 @@
+{
+  "id": "p-010",
+  "slug": "anker-klinovoy-ak-12x120",
+  "name": "Анкер клиновой AK 12x120",
+  "synonyms": [
+    "ak12x120",
+    "клиновой анкер",
+    "анкер 12x120"
+  ],
+  "tags": [
+    "крепёж",
+    "анкер",
+    "бетон"
+  ],
+  "type": "fasteners",
+  "category": "industrial",
+  "shortDescription": "Клиновой анкер для крепления тяжёлых конструкций в бетоне.",
+  "description": "AK 12x120 применяется для монтажа опор, кронштейнов и инженерного оборудования в полнотелых основаниях.",
+  "specs": [
+    {
+      "label": "Диаметр",
+      "value": "12 мм"
+    },
+    {
+      "label": "Длина",
+      "value": "120 мм"
+    }
+  ],
+  "documents": [
+    {
+      "title": "Паспорт метиза",
+      "url": "/images/placeholder.svg"
+    }
+  ],
+  "image": "/images/placeholder.svg"
+}

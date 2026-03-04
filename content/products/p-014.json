@@ -1,0 +1,36 @@
+{
+  "id": "p-014",
+  "slug": "truba-nerzhaveyushchaya-inox-38",
+  "name": "Труба нержавеющая INOX 38",
+  "synonyms": [
+    "inox38",
+    "нерж труба 38",
+    "труба aisi"
+  ],
+  "tags": [
+    "трубы",
+    "нержавеющая сталь",
+    "пищевая промышленность"
+  ],
+  "type": "pipes",
+  "category": "industrial",
+  "shortDescription": "Нержавеющая труба для агрессивных и санитарных сред.",
+  "description": "INOX 38 используется на объектах пищевой, фармацевтической и химической отрасли благодаря коррозионной стойкости.",
+  "specs": [
+    {
+      "label": "Марка стали",
+      "value": "AISI 304"
+    },
+    {
+      "label": "Диаметр",
+      "value": "38 мм"
+    }
+  ],
+  "documents": [
+    {
+      "title": "Сертификат материала",
+      "url": "/images/placeholder.svg"
+    }
+  ],
+  "image": "/images/placeholder.svg"
+}

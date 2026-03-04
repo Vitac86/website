@@ -1,0 +1,36 @@
+{
+  "id": "p-018",
+  "slug": "datchik-temperatury-dt-pt100",
+  "name": "Датчик температуры DT PT100",
+  "synonyms": [
+    "pt100",
+    "dt pt100",
+    "термодатчик pt100"
+  ],
+  "tags": [
+    "автоматизация",
+    "датчик",
+    "мониторинг"
+  ],
+  "type": "automation",
+  "category": "warehouse",
+  "shortDescription": "Промышленный датчик температуры для систем диспетчеризации.",
+  "description": "DT PT100 контролирует температуру в складских и технологических помещениях, совместим со стандартными контроллерами.",
+  "specs": [
+    {
+      "label": "Диапазон измерения",
+      "value": "-50…+250 °C"
+    },
+    {
+      "label": "Класс точности",
+      "value": "A"
+    }
+  ],
+  "documents": [
+    {
+      "title": "Калибровочный лист",
+      "url": "/images/placeholder.svg"
+    }
+  ],
+  "image": "/images/placeholder.svg"
+}

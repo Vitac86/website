@@ -1,0 +1,36 @@
+{
+  "id": "p-017",
+  "slug": "chastotnyy-preobrazovatel-drive-f75",
+  "name": "Частотный преобразователь Drive F75",
+  "synonyms": [
+    "drive f75",
+    "чп f75",
+    "частотник f75"
+  ],
+  "tags": [
+    "автоматизация",
+    "привод",
+    "энергоэффективность"
+  ],
+  "type": "automation",
+  "category": "engineering",
+  "shortDescription": "Преобразователь частоты для управления электродвигателями до 7.5 кВт.",
+  "description": "Drive F75 обеспечивает плавный пуск, защиту двигателя и оптимизацию энергопотребления насосных и вентиляторных систем.",
+  "specs": [
+    {
+      "label": "Мощность",
+      "value": "7.5 кВт"
+    },
+    {
+      "label": "Степень защиты",
+      "value": "IP20"
+    }
+  ],
+  "documents": [
+    {
+      "title": "Паспорт и параметры",
+      "url": "/images/placeholder.svg"
+    }
+  ],
+  "image": "/images/placeholder.svg"
+}

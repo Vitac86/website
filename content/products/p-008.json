@@ -1,0 +1,36 @@
+{
+  "id": "p-008",
+  "slug": "bazaltovyy-mat-fireguard-50",
+  "name": "Базальтовый мат FireGuard 50",
+  "synonyms": [
+    "fireguard50",
+    "огнезащитный мат",
+    "базальтовый утеплитель"
+  ],
+  "tags": [
+    "огнезащита",
+    "изоляция",
+    "воздуховоды"
+  ],
+  "type": "insulation",
+  "category": "industrial",
+  "shortDescription": "Огнезащитный мат для изоляции воздуховодов и оборудования.",
+  "description": "FireGuard 50 помогает обеспечить предел огнестойкости инженерных систем и снижает теплопотери на горячих участках.",
+  "specs": [
+    {
+      "label": "Температура применения",
+      "value": "до +700 °C"
+    },
+    {
+      "label": "Толщина",
+      "value": "50 мм"
+    }
+  ],
+  "documents": [
+    {
+      "title": "Сертификат пожарной безопасности",
+      "url": "/images/placeholder.svg"
+    }
+  ],
+  "image": "/images/placeholder.svg"
+}
