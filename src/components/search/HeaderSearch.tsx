@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { SearchDropdown } from '@/components/search/SearchDropdown';
 import { useSearch } from '@/components/search/useSearch';
@@ -13,10 +13,45 @@ type Props = {
 
 export function HeaderSearch({ products }: Props): JSX.Element {
   const [query, setQuery] = useState('');
+  const [debouncedQuery, setDebouncedQuery] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
+  const rootRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
-  const results = useSearch(products, query, 8);
-  const hasResults = query.length > 0 && results.length > 0;
+  const results = useSearch(products, debouncedQuery, 8);
+  const trimmedQuery = query.trim();
+  const hasQuery = trimmedQuery.length > 0;
+  const hasResults = isOpen && hasQuery && results.length > 0;
+
+  useEffect(() => {
+    const timerId = window.setTimeout(() => {
+      setDebouncedQuery(query);
+    }, 200);
+
+    return () => {
+      window.clearTimeout(timerId);
+    };
+  }, [query]);
+
+  useEffect(() => {
+    const onPointerDown = (event: MouseEvent): void => {
+      if (!rootRef.current?.contains(event.target as Node)) {
+        setIsOpen(false);
+        setSelectedIndex(-1);
+      }
+    };
+
+    document.addEventListener('mousedown', onPointerDown);
+    return () => {
+      document.removeEventListener('mousedown', onPointerDown);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (selectedIndex >= results.length) {
+      setSelectedIndex(-1);
+    }
+  }, [results.length, selectedIndex]);
 
   const activeProduct = useMemo(() => {
     if (selectedIndex < 0 || selectedIndex >= results.length) {
@@ -26,33 +61,45 @@ export function HeaderSearch({ products }: Props): JSX.Element {
   }, [results, selectedIndex]);
 
   return (
-    <div className="relative w-full max-w-md">
+    <div ref={rootRef} className="relative w-full max-w-md">
       <input
         value={query}
         onChange={(event) => {
           setQuery(event.target.value);
           setSelectedIndex(-1);
+          setIsOpen(event.target.value.trim().length > 0);
+        }}
+        onFocus={() => {
+          if (query.trim().length > 0) {
+            setIsOpen(true);
+          }
         }}
         onKeyDown={(event) => {
           if (event.key === 'ArrowDown') {
             event.preventDefault();
+            setIsOpen(true);
             setSelectedIndex((prev) => Math.min(prev + 1, results.length - 1));
           }
           if (event.key === 'ArrowUp') {
             event.preventDefault();
+            setIsOpen(true);
             setSelectedIndex((prev) => Math.max(prev - 1, -1));
           }
           if (event.key === 'Escape') {
-            setQuery('');
+            setIsOpen(false);
             setSelectedIndex(-1);
           }
           if (event.key === 'Enter') {
             event.preventDefault();
             if (activeProduct) {
               router.push(`/tovar/${activeProduct.slug}`);
+              setIsOpen(false);
               return;
             }
-            router.push(`/katalog?q=${encodeURIComponent(query)}`);
+            if (trimmedQuery) {
+              router.push(`/katalog?q=${encodeURIComponent(trimmedQuery)}`);
+              setIsOpen(false);
+            }
           }
         }}
         placeholder="Поиск по каталогу"

@@ -12,6 +12,8 @@ export type Product = {
   id: string;
   slug: string;
   name: string;
+  synonyms?: string[];
+  tags?: string[];
   type: string;
   category: string;
   shortDescription: string;

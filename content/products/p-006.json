@@ -2,6 +2,8 @@
   "id": "p-006",
   "slug": "tovar-006",
   "name": "Товар 6",
+  "synonyms": ["автоматика", "контроллер"],
+  "tags": ["склад", "датчик"],
   "type": "automation",
   "category": "warehouse",
   "shortDescription": "Краткое описание товара 6 для каталога.",

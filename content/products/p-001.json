@@ -2,6 +2,8 @@
   "id": "p-001",
   "slug": "tovar-001",
   "name": "Товар 1",
+  "synonyms": ["панель", "фасадная панель"],
+  "tags": ["фасад", "облицовка"],
   "type": "metal-panels",
   "category": "facade",
   "shortDescription": "Краткое описание товара 1 для каталога.",

@@ -2,6 +2,8 @@
   "id": "p-004",
   "slug": "tovar-004",
   "name": "Товар 4",
+  "synonyms": ["крепеж", "метиз"],
+  "tags": ["болты", "инженерия"],
   "type": "fasteners",
   "category": "engineering",
   "shortDescription": "Краткое описание товара 4 для каталога.",

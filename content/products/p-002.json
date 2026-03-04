@@ -2,6 +2,8 @@
   "id": "p-002",
   "slug": "tovar-002",
   "name": "Товар 2",
+  "synonyms": ["вентрешетка", "вентиляционная панель"],
+  "tags": ["вентиляция", "фасад"],
   "type": "ventilation",
   "category": "facade",
   "shortDescription": "Краткое описание товара 2 для каталога.",
