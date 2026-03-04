@@ -1,5 +1,5 @@
 const bucket = new Map<string, { count: number; ts: number }>();
-const WINDOW_MS = 60_000;
+const WINDOW_MS = 10 * 60_000;
 const LIMIT = 5;
 
 export function checkRateLimit(key: string): boolean {

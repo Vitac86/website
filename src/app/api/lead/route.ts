@@ -8,12 +8,23 @@ import { validateLead } from '@/lib/lead/validate';
 import type { LeadPayload } from '@/types/lead';
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
-  const ip = request.headers.get('x-forwarded-for') ?? 'anonymous';
+  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'anonymous';
   if (!checkRateLimit(ip)) {
     return NextResponse.json({ ok: false, error: 'Слишком много запросов' }, { status: 429 });
   }
 
-  const body = (await request.json()) as LeadPayload;
+  let body: LeadPayload;
+
+  try {
+    body = (await request.json()) as LeadPayload;
+  } catch {
+    return NextResponse.json({ ok: false, error: 'Некорректный JSON' }, { status: 400 });
+  }
+
+  if (typeof body.company === 'string' && body.company.trim().length > 0) {
+    return NextResponse.json({ ok: true });
+  }
+
   const validation = validateLead(body);
 
   if (!validation.valid || !validation.normalized) {
@@ -30,10 +41,10 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     } else {
       await sendLeadEmail(validation.normalized);
     }
-
-    return NextResponse.json({ ok: true });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Ошибка провайдера';
     return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }
+
+  return NextResponse.json({ ok: true });
 }
