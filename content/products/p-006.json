@@ -1,0 +1,17 @@
+{
+  "id": "p-006",
+  "slug": "tovar-006",
+  "name": "Товар 6",
+  "type": "automation",
+  "category": "warehouse",
+  "shortDescription": "Краткое описание товара 6 для каталога.",
+  "description": "Расширенное описание товара 6. Подходит для MVP и демонстрации карточки товара.",
+  "specs": [
+    {"label": "Материал", "value": "Сталь"},
+    {"label": "Размер", "value": "Стандартный"}
+  ],
+  "documents": [
+    {"title": "Паспорт товара", "url": "/images/placeholder.svg"}
+  ],
+  "image": "/images/placeholder.svg"
+}

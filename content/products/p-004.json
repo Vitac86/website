@@ -1,0 +1,17 @@
+{
+  "id": "p-004",
+  "slug": "tovar-004",
+  "name": "Товар 4",
+  "type": "fasteners",
+  "category": "engineering",
+  "shortDescription": "Краткое описание товара 4 для каталога.",
+  "description": "Расширенное описание товара 4. Подходит для MVP и демонстрации карточки товара.",
+  "specs": [
+    {"label": "Материал", "value": "Сталь"},
+    {"label": "Размер", "value": "Стандартный"}
+  ],
+  "documents": [
+    {"title": "Паспорт товара", "url": "/images/placeholder.svg"}
+  ],
+  "image": "/images/placeholder.svg"
+}

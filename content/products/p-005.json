@@ -1,0 +1,17 @@
+{
+  "id": "p-005",
+  "slug": "tovar-005",
+  "name": "Товар 5",
+  "type": "pipes",
+  "category": "industrial",
+  "shortDescription": "Краткое описание товара 5 для каталога.",
+  "description": "Расширенное описание товара 5. Подходит для MVP и демонстрации карточки товара.",
+  "specs": [
+    {"label": "Материал", "value": "Сталь"},
+    {"label": "Размер", "value": "Стандартный"}
+  ],
+  "documents": [
+    {"title": "Паспорт товара", "url": "/images/placeholder.svg"}
+  ],
+  "image": "/images/placeholder.svg"
+}

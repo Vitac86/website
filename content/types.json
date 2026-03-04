@@ -1,0 +1,8 @@
+[
+  {"id":"metal-panels","name":"Металлические панели","description":"Фасадные и стеновые панели для промышленного строительства","image":"/images/placeholder.svg"},
+  {"id":"ventilation","name":"Вентиляционные системы","description":"Комплектующие и готовые решения для вентиляции","image":"/images/placeholder.svg"},
+  {"id":"insulation","name":"Теплоизоляция","description":"Материалы для тепло- и шумоизоляции объектов","image":"/images/placeholder.svg"},
+  {"id":"fasteners","name":"Крепёж","description":"Промышленный крепёж для монтажных работ","image":"/images/placeholder.svg"},
+  {"id":"pipes","name":"Трубные решения","description":"Трубы и фитинги для инженерных систем","image":"/images/placeholder.svg"},
+  {"id":"automation","name":"Автоматизация","description":"Базовые элементы автоматизации производства","image":"/images/placeholder.svg"}
+]

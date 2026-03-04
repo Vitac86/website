@@ -1,0 +1,17 @@
+{
+  "id": "p-001",
+  "slug": "tovar-001",
+  "name": "Товар 1",
+  "type": "metal-panels",
+  "category": "facade",
+  "shortDescription": "Краткое описание товара 1 для каталога.",
+  "description": "Расширенное описание товара 1. Подходит для MVP и демонстрации карточки товара.",
+  "specs": [
+    {"label": "Материал", "value": "Сталь"},
+    {"label": "Размер", "value": "Стандартный"}
+  ],
+  "documents": [
+    {"title": "Паспорт товара", "url": "/images/placeholder.svg"}
+  ],
+  "image": "/images/placeholder.svg"
+}
