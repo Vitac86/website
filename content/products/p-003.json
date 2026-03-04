@@ -2,6 +2,8 @@
   "id": "p-003",
   "slug": "tovar-003",
   "name": "Товар 3",
+  "synonyms": ["утеплитель", "минвата"],
+  "tags": ["изоляция", "инженерия"],
   "type": "insulation",
   "category": "engineering",
   "shortDescription": "Краткое описание товара 3 для каталога.",

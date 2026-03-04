@@ -24,14 +24,20 @@ export function SearchDropdown({ query, results, selectedIndex, onSelectIndex }:
           <li key={result.id}>
             <Link
               href={`/tovar/${result.slug}`}
-              className={`block px-3 py-2 text-sm ${index === selectedIndex ? 'bg-slate-100' : ''}`}
+              className={`block px-3 py-2 text-sm transition-colors ${
+                index === selectedIndex ? 'bg-brand/10 text-brand' : 'hover:bg-slate-50'
+              }`}
               onMouseEnter={() => onSelectIndex(index)}
-              dangerouslySetInnerHTML={{ __html: highlightText(result.name, query) }}
-            />
+            >
+              {highlightText(result.name, query)}
+            </Link>
           </li>
         ))}
       </ul>
-      <Link href={`/katalog?q=${encodeURIComponent(query)}`} className="block border-t px-3 py-2 text-sm font-medium text-brand">
+      <Link
+        href={`/katalog?q=${encodeURIComponent(query)}`}
+        className="block border-t px-3 py-2 text-sm font-medium text-brand hover:bg-slate-50"
+      >
         Показать все результаты
       </Link>
     </div>
