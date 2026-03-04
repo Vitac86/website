@@ -15,6 +15,8 @@ export function PhoneInput({ value, onChange }: Props): JSX.Element {
       required
       name="phone"
       type="tel"
+      inputMode="tel"
+      autoComplete="tel"
     />
   );
 }

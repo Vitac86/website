@@ -3,6 +3,8 @@ export type LeadPayload = {
   phone: string;
   consent: boolean;
   company?: string;
+  page?: string;
+  utm?: Record<string, string>;
 };
 
 export type LeadResult = {
