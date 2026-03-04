@@ -1,0 +1,17 @@
+{
+  "id": "p-003",
+  "slug": "tovar-003",
+  "name": "Товар 3",
+  "type": "insulation",
+  "category": "engineering",
+  "shortDescription": "Краткое описание товара 3 для каталога.",
+  "description": "Расширенное описание товара 3. Подходит для MVP и демонстрации карточки товара.",
+  "specs": [
+    {"label": "Материал", "value": "Сталь"},
+    {"label": "Размер", "value": "Стандартный"}
+  ],
+  "documents": [
+    {"title": "Паспорт товара", "url": "/images/placeholder.svg"}
+  ],
+  "image": "/images/placeholder.svg"
+}
