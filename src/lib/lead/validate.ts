@@ -22,10 +22,6 @@ export function validateLead(payload: LeadPayload): { valid: boolean; error?: st
     return { valid: false, error: 'Нужно согласие на обработку данных' };
   }
 
-  if (payload.company && payload.company.trim().length > 0) {
-    return { valid: false, error: 'Spam detected' };
-  }
-
   return {
     valid: true,
     normalized: {
