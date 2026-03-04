@@ -1,0 +1,36 @@
+{
+  "id": "p-012",
+  "slug": "samorez-krovelnyy-sk-55",
+  "name": "Саморез кровельный SK 5.5",
+  "synonyms": [
+    "sk 5.5",
+    "кровельный саморез",
+    "саморез с шайбой"
+  ],
+  "tags": [
+    "крепёж",
+    "кровля",
+    "монтаж панелей"
+  ],
+  "type": "fasteners",
+  "category": "facade",
+  "shortDescription": "Оцинкованный саморез с EPDM-шайбой для кровельных работ.",
+  "description": "SK 5.5 обеспечивает герметичное крепление профилированных листов и сэндвич-панелей к металлическим прогонам.",
+  "specs": [
+    {
+      "label": "Диаметр",
+      "value": "5.5 мм"
+    },
+    {
+      "label": "Длина",
+      "value": "38 мм"
+    }
+  ],
+  "documents": [
+    {
+      "title": "Техописание",
+      "url": "/images/placeholder.svg"
+    }
+  ],
+  "image": "/images/placeholder.svg"
+}

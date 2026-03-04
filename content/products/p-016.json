@@ -1,0 +1,36 @@
+{
+  "id": "p-016",
+  "slug": "plk-programmiruemyy-kontroller-c200",
+  "name": "ПЛК-контроллер C200",
+  "synonyms": [
+    "c200 plc",
+    "плк c200",
+    "контроллер c200"
+  ],
+  "tags": [
+    "автоматизация",
+    "контроллер",
+    "шкаф управления"
+  ],
+  "type": "automation",
+  "category": "industrial",
+  "shortDescription": "Программируемый контроллер для автоматизации технологических процессов.",
+  "description": "Контроллер C200 поддерживает модульную архитектуру ввода-вывода и интеграцию с распространёнными SCADA-системами.",
+  "specs": [
+    {
+      "label": "Интерфейсы",
+      "value": "RS-485, Ethernet"
+    },
+    {
+      "label": "Питание",
+      "value": "24 В DC"
+    }
+  ],
+  "documents": [
+    {
+      "title": "Руководство пользователя",
+      "url": "/images/placeholder.svg"
+    }
+  ],
+  "image": "/images/placeholder.svg"
+}

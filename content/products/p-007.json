@@ -1,0 +1,36 @@
+{
+  "id": "p-007",
+  "slug": "mineralnaya-vata-thermoblock-100",
+  "name": "Минеральная вата ThermoBlock 100",
+  "synonyms": [
+    "thermoblock100",
+    "минвата 100",
+    "утеплитель thermoblock"
+  ],
+  "tags": [
+    "теплоизоляция",
+    "минеральная вата",
+    "стены"
+  ],
+  "type": "insulation",
+  "category": "engineering",
+  "shortDescription": "Плиты из каменной ваты для утепления стен и перегородок.",
+  "description": "ThermoBlock 100 сочетает тепло- и звукоизоляционные свойства, подходит для гражданского и промышленного строительства.",
+  "specs": [
+    {
+      "label": "Толщина",
+      "value": "100 мм"
+    },
+    {
+      "label": "Плотность",
+      "value": "80 кг/м³"
+    }
+  ],
+  "documents": [
+    {
+      "title": "Протокол испытаний",
+      "url": "/images/placeholder.svg"
+    }
+  ],
+  "image": "/images/placeholder.svg"
+}

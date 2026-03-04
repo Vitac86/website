@@ -1,0 +1,36 @@
+{
+  "id": "p-015",
+  "slug": "fiting-otvod-f90-dn50",
+  "name": "Фитинг отвод F90 DN50",
+  "synonyms": [
+    "f90 dn50",
+    "отвод 90 dn50",
+    "колено dn50"
+  ],
+  "tags": [
+    "фитинги",
+    "трубопровод",
+    "монтаж"
+  ],
+  "type": "pipes",
+  "category": "engineering",
+  "shortDescription": "Стальной отвод 90° для стыковки трубопроводов.",
+  "description": "F90 DN50 используется для изменения направления трубопровода с минимальными гидравлическими потерями.",
+  "specs": [
+    {
+      "label": "Номинальный диаметр",
+      "value": "DN50"
+    },
+    {
+      "label": "Угол",
+      "value": "90°"
+    }
+  ],
+  "documents": [
+    {
+      "title": "Геометрические размеры",
+      "url": "/images/placeholder.svg"
+    }
+  ],
+  "image": "/images/placeholder.svg"
+}

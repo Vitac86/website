@@ -1,19 +1,36 @@
 {
   "id": "p-006",
-  "slug": "tovar-006",
-  "name": "Товар 6",
-  "synonyms": ["автоматика", "контроллер"],
-  "tags": ["склад", "датчик"],
-  "type": "automation",
-  "category": "warehouse",
-  "shortDescription": "Краткое описание товара 6 для каталога.",
-  "description": "Расширенное описание товара 6. Подходит для MVP и демонстрации карточки товара.",
+  "slug": "ventilyator-kanalnyy-vk-315",
+  "name": "Вентилятор канальный VK 315",
+  "synonyms": [
+    "vk315",
+    "канальный вентилятор",
+    "вентилятор вк"
+  ],
+  "tags": [
+    "вентиляция",
+    "канальный",
+    "приток"
+  ],
+  "type": "ventilation",
+  "category": "engineering",
+  "shortDescription": "Канальный вентилятор для круглых воздуховодов.",
+  "description": "VK 315 устанавливается в вентиляционные магистрали и рассчитан на непрерывную работу в коммерческих помещениях.",
   "specs": [
-    {"label": "Материал", "value": "Сталь"},
-    {"label": "Размер", "value": "Стандартный"}
+    {
+      "label": "Производительность",
+      "value": "2200 м³/ч"
+    },
+    {
+      "label": "Питание",
+      "value": "230 В"
+    }
   ],
   "documents": [
-    {"title": "Паспорт товара", "url": "/images/placeholder.svg"}
+    {
+      "title": "Технический паспорт",
+      "url": "/images/placeholder.svg"
+    }
   ],
   "image": "/images/placeholder.svg"
 }

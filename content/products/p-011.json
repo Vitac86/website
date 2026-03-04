@@ -1,0 +1,36 @@
+{
+  "id": "p-011",
+  "slug": "bolt-vysokoprochnyy-vp-m16",
+  "name": "Болт высокопрочный VP M16",
+  "synonyms": [
+    "vp m16",
+    "болт m16",
+    "высокопрочный болт"
+  ],
+  "tags": [
+    "крепёж",
+    "метизы",
+    "монтаж"
+  ],
+  "type": "fasteners",
+  "category": "industrial",
+  "shortDescription": "Высокопрочный болт для стальных соединений.",
+  "description": "Болт VP M16 предназначен для нагруженных узлов металлоконструкций, поставляется с гайкой и шайбой.",
+  "specs": [
+    {
+      "label": "Класс прочности",
+      "value": "10.9"
+    },
+    {
+      "label": "Покрытие",
+      "value": "Цинк"
+    }
+  ],
+  "documents": [
+    {
+      "title": "Сертификат партии",
+      "url": "/images/placeholder.svg"
+    }
+  ],
+  "image": "/images/placeholder.svg"
+}
