@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 import { Container } from '@/components/layout/Container';
@@ -18,7 +19,18 @@ export default async function ProductPage({ params }: Props): Promise<JSX.Elemen
   return (
     <Container className="py-10">
       <h1 className="text-3xl font-semibold">{product.name}</h1>
-      <p className="mt-3 text-slate-600">{product.description}</p>
+      <p className="mt-3 max-w-3xl text-slate-600">
+        {product.description} Ниже указаны ключевые параметры и список документов для проверки соответствия проекту.
+        При необходимости подготовим коммерческое предложение с альтернативами и сроками поставки.
+      </p>
+      <div className="mt-4 flex flex-wrap gap-3">
+        <Link href="/konsultaciya" className="rounded bg-brand px-4 py-2 text-white">
+          Получить консультацию
+        </Link>
+        <Link href="/katalog" className="rounded border border-slate-300 px-4 py-2">
+          Вернуться в каталог
+        </Link>
+      </div>
 
       <section className="mt-6">
         <h2 className="text-xl font-semibold">Характеристики</h2>
