@@ -61,8 +61,16 @@ export function HeaderSearch({ products }: Props): JSX.Element {
   }, [results, selectedIndex]);
 
   return (
-    <div ref={rootRef} className="relative w-full max-w-md">
+    <div ref={rootRef} className="relative w-full max-w-xl">
+      <label htmlFor="header-search" className="sr-only">
+        Поиск по каталогу
+      </label>
       <input
+        id="header-search"
+        aria-label="Поиск по каталогу"
+        aria-expanded={hasResults}
+        aria-controls="search-suggestions"
+        role="combobox"
         value={query}
         onChange={(event) => {
           setQuery(event.target.value);
@@ -103,10 +111,15 @@ export function HeaderSearch({ products }: Props): JSX.Element {
           }
         }}
         placeholder="Поиск по каталогу"
-        className="w-full rounded-md border px-3 py-2 text-sm"
+        className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm transition placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40"
       />
       {hasResults ? (
-        <SearchDropdown query={query} results={results} selectedIndex={selectedIndex} onSelectIndex={setSelectedIndex} />
+        <SearchDropdown
+          query={query}
+          results={results}
+          selectedIndex={selectedIndex}
+          onSelectIndex={setSelectedIndex}
+        />
       ) : null}
     </div>
   );

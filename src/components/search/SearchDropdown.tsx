@@ -18,13 +18,13 @@ export function SearchDropdown({ query, results, selectedIndex, onSelectIndex }:
   }
 
   return (
-    <div className="absolute top-full z-20 mt-2 w-full rounded-md border bg-white shadow">
-      <ul>
+    <div id="search-suggestions" className="absolute top-full z-20 mt-2 w-full rounded-lg border border-slate-200 bg-white shadow-lg">
+      <ul role="listbox" aria-label="Подсказки поиска">
         {results.map((result, index) => (
-          <li key={result.id}>
+          <li key={result.id} role="option" aria-selected={index === selectedIndex}>
             <Link
               href={`/tovar/${result.slug}`}
-              className={`block px-3 py-2 text-sm transition-colors ${
+              className={`block px-3 py-2 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 ${
                 index === selectedIndex ? 'bg-brand/10 text-brand' : 'hover:bg-slate-50'
               }`}
               onMouseEnter={() => onSelectIndex(index)}
@@ -36,7 +36,7 @@ export function SearchDropdown({ query, results, selectedIndex, onSelectIndex }:
       </ul>
       <Link
         href={`/katalog?q=${encodeURIComponent(query)}`}
-        className="block border-t px-3 py-2 text-sm font-medium text-brand hover:bg-slate-50"
+        className="block rounded-b-lg border-t border-slate-200 px-3 py-2 text-sm font-medium text-brand transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40"
       >
         Показать все результаты
       </Link>

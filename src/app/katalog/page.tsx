@@ -116,19 +116,21 @@ export default async function KatalogPage({ searchParams }: Props): Promise<JSX.
   const selectedCategoryNames = categories.filter((item) => selectedCategories.includes(item.id));
 
   return (
-    <Container className="py-10">
-      <h1 className="text-2xl font-semibold">Каталог</h1>
-      <p className="mt-3 max-w-3xl text-slate-600">
-        Используйте фильтры слева, чтобы быстро сузить список по типу, категории и поисковому запросу.
-        Карточки товаров содержат краткое описание и ведут на детальную страницу с характеристиками и документами.
-        Если нужной позиции нет в выдаче, оставьте заявку — предложим подходящую замену.
+    <Container className="py-8 sm:py-10">
+      <h1 className="text-3xl font-semibold">Каталог</h1>
+      <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-600 sm:text-base">
+        Используйте фильтры, чтобы быстро сузить список по типу, категории и поисковому запросу. Если нужной позиции нет в
+        выдаче, оставьте заявку — предложим подходящую замену.
       </p>
-      <div className="mt-4">
-        <Link href="/konsultaciya" className="inline-block rounded bg-brand px-4 py-2 text-white">
+      <div className="mt-5 flex flex-wrap items-center gap-3">
+        <Link
+          href="/konsultaciya"
+          className="inline-block rounded-lg bg-brand px-4 py-2 text-sm font-medium text-white transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/50"
+        >
           Запросить подбор
         </Link>
+        <p className="text-sm text-slate-600">Сортировка: {query ? 'релевантность' : 'по алфавиту'}</p>
       </div>
-      <div className="mt-4 text-sm text-slate-600">Сортировка: {query ? 'релевантность' : 'по алфавиту'}</div>
 
       {(query || selectedTypes.length || selectedCategories.length) && (
         <div className="mt-4 flex flex-wrap items-center gap-2">
@@ -136,7 +138,7 @@ export default async function KatalogPage({ searchParams }: Props): Promise<JSX.
           {query && (
             <Link
               href={buildKatalogHref('', selectedTypes, selectedCategories)}
-              className="rounded-full border px-3 py-1 text-sm hover:bg-slate-50"
+              className="rounded-full border border-slate-300 bg-white px-3 py-1 text-sm transition hover:bg-slate-50"
             >
               Поиск: {query} ×
             </Link>
@@ -149,7 +151,7 @@ export default async function KatalogPage({ searchParams }: Props): Promise<JSX.
                 selectedTypes.filter((value) => value !== typeItem.id),
                 selectedCategories
               )}
-              className="rounded-full border px-3 py-1 text-sm hover:bg-slate-50"
+              className="rounded-full border border-slate-300 bg-white px-3 py-1 text-sm transition hover:bg-slate-50"
             >
               Тип: {typeItem.name} ×
             </Link>
@@ -162,7 +164,7 @@ export default async function KatalogPage({ searchParams }: Props): Promise<JSX.
                 selectedTypes,
                 selectedCategories.filter((value) => value !== categoryItem.id)
               )}
-              className="rounded-full border px-3 py-1 text-sm hover:bg-slate-50"
+              className="rounded-full border border-slate-300 bg-white px-3 py-1 text-sm transition hover:bg-slate-50"
             >
               Категория: {categoryItem.name} ×
             </Link>
@@ -173,7 +175,7 @@ export default async function KatalogPage({ searchParams }: Props): Promise<JSX.
         </div>
       )}
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-[260px_1fr]">
+      <div className="mt-6 grid gap-6 lg:grid-cols-[280px_1fr]">
         <ProductFilters
           types={types}
           categories={categories}
@@ -183,7 +185,7 @@ export default async function KatalogPage({ searchParams }: Props): Promise<JSX.
         {products.length ? (
           <ProductGrid products={products} />
         ) : (
-          <section className="rounded-lg border border-dashed p-6">
+          <section className="rounded-xl border border-dashed border-slate-300 bg-white p-6">
             <h2 className="text-lg font-semibold">Ничего не найдено</h2>
             <p className="mt-2 text-sm text-slate-600">Попробуйте:</p>
             <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-slate-600">
@@ -191,7 +193,10 @@ export default async function KatalogPage({ searchParams }: Props): Promise<JSX.
               <li>снять часть фильтров по типу или категории;</li>
               <li>выбрать другой тип продукции в фильтрах.</li>
             </ul>
-            <Link href="/katalog" className="mt-4 inline-block rounded bg-brand px-4 py-2 text-white">
+            <Link
+              href="/katalog"
+              className="mt-4 inline-block rounded-lg bg-brand px-4 py-2 text-white transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/50"
+            >
               Сбросить фильтры
             </Link>
           </section>
