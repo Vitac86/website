@@ -3,5 +3,15 @@
 @tailwind utilities;
 
 body {
-  @apply bg-white text-slate-900;
+  @apply bg-slate-50 text-slate-900 antialiased;
+}
+
+main {
+  @apply min-h-[calc(100vh-170px)];
+}
+
+h1,
+h2,
+h3 {
+  @apply tracking-tight text-slate-900;
 }
