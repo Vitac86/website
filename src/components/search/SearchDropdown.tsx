@@ -18,7 +18,7 @@ export function SearchDropdown({ query, results, selectedIndex, onSelectIndex }:
   }
 
   return (
-    <div id="search-suggestions" className="absolute top-full z-20 mt-2 w-full rounded-lg border border-slate-200 bg-white shadow-lg">
+    <div id="search-suggestions" className="surface-panel absolute top-full z-20 mt-2 w-full overflow-hidden">
       <ul role="listbox" aria-label="Подсказки поиска">
         {results.map((result, index) => (
           <li key={result.id} role="option" aria-selected={index === selectedIndex}>

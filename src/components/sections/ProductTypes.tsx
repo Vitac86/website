@@ -7,18 +7,20 @@ export function ProductTypes(): JSX.Element {
   const types = loadTypes();
 
   return (
-    <section className="py-10">
+    <section className="section-shell section-transition">
       <Container>
-        <h2 className="text-2xl font-semibold">Типы продукции</h2>
-        <p className="mt-3 max-w-3xl text-slate-600">
+        <span className="section-kicker">Направления поставок</span>
+        <h2 className="section-title mt-4">Типы продукции</h2>
+        <p className="section-description">
           Разделы сгруппированы по назначению, чтобы проще найти нужную позицию для закупки или предварительного
           расчёта. В каждом типе собраны товары с описанием и базовыми характеристиками для первичного отбора.
         </p>
-        <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {types.map((type) => (
-            <Link key={type.id} href={`/katalog?type=${type.id}`} className="rounded-lg border p-4 hover:border-brand">
-              <h3 className="font-medium">{type.name}</h3>
+            <Link key={type.id} href={`/katalog?type=${type.id}`} className="card-direction group">
+              <h3 className="text-lg font-semibold">{type.name}</h3>
               <p className="mt-2 text-sm text-slate-600">{type.description}</p>
+              <span className="card-link-arrow">Открыть направление →</span>
             </Link>
           ))}
         </div>

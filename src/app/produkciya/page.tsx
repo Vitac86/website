@@ -11,7 +11,7 @@ export default function ProdukciyaPage(): JSX.Element {
   const categories = loadCategories();
 
   return (
-    <Container className="space-y-8 py-10">
+    <Container className="space-y-8 py-12 sm:py-14">
       <section>
         <h1 className="text-2xl font-semibold">Продукция</h1>
         <p className="mt-3 max-w-3xl text-slate-600">
@@ -20,10 +20,10 @@ export default function ProdukciyaPage(): JSX.Element {
           подбором аналогов или расчётом объёма, отправьте запрос на консультацию.
         </p>
         <div className="mt-4 flex flex-wrap gap-3">
-          <Link href="/katalog" className="rounded bg-brand px-4 py-2 text-white">
+          <Link href="/katalog" className="btn-primary">
             Открыть каталог
           </Link>
-          <Link href="/konsultaciya" className="rounded border border-slate-300 px-4 py-2">
+          <Link href="/konsultaciya" className="btn-secondary">
             Получить консультацию
           </Link>
         </div>
@@ -33,7 +33,7 @@ export default function ProdukciyaPage(): JSX.Element {
         <h2 className="text-xl font-semibold">Типы продукции</h2>
         <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {types.map((type) => (
-            <Link key={type.id} href={`/katalog?type=${type.id}`} className="rounded border p-3">
+            <Link key={type.id} href={`/katalog?type=${type.id}`} className="card-panel p-3">
               {type.name}
             </Link>
           ))}
@@ -44,7 +44,7 @@ export default function ProdukciyaPage(): JSX.Element {
         <h2 className="text-xl font-semibold">Категории</h2>
         <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {categories.map((category) => (
-            <Link key={category.id} href={`/katalog?category=${category.id}`} className="rounded border p-3">
+            <Link key={category.id} href={`/katalog?category=${category.id}`} className="card-panel p-3">
               {category.name}
             </Link>
           ))}

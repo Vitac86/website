@@ -11,7 +11,7 @@ export function PhoneInput({ value, onChange }: Props): JSX.Element {
       value={value}
       onChange={(event) => onChange(normalizePhone(event.target.value))}
       placeholder="+7 900 000 00 00"
-      className="w-full rounded-md border px-3 py-2"
+      className="field-input"
       required
       name="phone"
       type="tel"

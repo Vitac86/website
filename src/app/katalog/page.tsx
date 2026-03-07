@@ -125,7 +125,7 @@ export default async function KatalogPage({ searchParams }: Props): Promise<JSX.
       <div className="mt-5 flex flex-wrap items-center gap-3">
         <Link
           href="/konsultaciya"
-          className="inline-block rounded-lg bg-brand px-4 py-2 text-sm font-medium text-white transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/50"
+          className="btn-primary"
         >
           Запросить подбор
         </Link>
@@ -169,7 +169,7 @@ export default async function KatalogPage({ searchParams }: Props): Promise<JSX.
               Категория: {categoryItem.name} ×
             </Link>
           ))}
-          <Link href="/katalog" className="text-sm text-brand underline-offset-2 hover:underline">
+          <Link href="/katalog" className="btn-link">
             Сбросить всё
           </Link>
         </div>
@@ -185,7 +185,7 @@ export default async function KatalogPage({ searchParams }: Props): Promise<JSX.
         {products.length ? (
           <ProductGrid products={products} />
         ) : (
-          <section className="rounded-xl border border-dashed border-slate-300 bg-white p-6">
+          <section className="surface-panel border-dashed p-6">
             <h2 className="text-lg font-semibold">Ничего не найдено</h2>
             <p className="mt-2 text-sm text-slate-600">Попробуйте:</p>
             <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-slate-600">
@@ -195,7 +195,7 @@ export default async function KatalogPage({ searchParams }: Props): Promise<JSX.
             </ul>
             <Link
               href="/katalog"
-              className="mt-4 inline-block rounded-lg bg-brand px-4 py-2 text-white transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/50"
+              className="btn-primary mt-4"
             >
               Сбросить фильтры
             </Link>

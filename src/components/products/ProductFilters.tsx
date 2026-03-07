@@ -105,7 +105,7 @@ export function ProductFilters({ types, categories, selectedTypes, selectedCateg
           type="button"
           aria-label="Открыть фильтры каталога"
           onClick={() => setMobileOpen(true)}
-          className="inline-flex items-center rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium shadow-sm transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40"
+          className="btn-secondary"
         >
           Фильтры {hasSelected ? `(${selectedTypes.length + selectedCategories.length})` : ''}
         </button>
@@ -113,7 +113,7 @@ export function ProductFilters({ types, categories, selectedTypes, selectedCateg
 
       {mobileOpen ? (
         <div className="fixed inset-0 z-40 bg-slate-900/30 p-4 lg:hidden" role="dialog" aria-modal="true" aria-label="Фильтры каталога">
-          <aside className="ml-auto h-full w-full max-w-sm overflow-y-auto rounded-xl bg-white p-4 shadow-xl">
+          <aside className="surface-panel ml-auto h-full w-full max-w-sm overflow-y-auto p-4">
             <div className="flex items-center justify-between">
               <h2 className="text-base font-semibold">Фильтры</h2>
               <button
@@ -130,7 +130,7 @@ export function ProductFilters({ types, categories, selectedTypes, selectedCateg
         </div>
       ) : null}
 
-      <aside className="hidden self-start rounded-xl border border-slate-200 bg-white p-4 lg:sticky lg:top-24 lg:block">{filterContent}</aside>
+      <aside className="surface-panel hidden self-start p-4 lg:sticky lg:top-24 lg:block">{filterContent}</aside>
     </>
   );
 }

@@ -10,6 +10,10 @@ const config: Config = {
     extend: {
       colors: {
         brand: '#0f4c81'
+      },
+      fontFamily: {
+        sans: ['var(--font-inter)', 'ui-sans-serif', 'system-ui'],
+        heading: ['var(--font-manrope)', 'var(--font-inter)', 'ui-sans-serif', 'system-ui']
       }
     }
   },
