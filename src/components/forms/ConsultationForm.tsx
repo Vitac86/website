@@ -96,7 +96,7 @@ export function ConsultationForm(): JSX.Element {
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-3 rounded-lg border p-4">
+    <form onSubmit={onSubmit} className="space-y-3 rounded-xl bg-white p-4 sm:p-5">
       <h3 className="text-lg font-semibold">Получить консультацию</h3>
 
       <div>
@@ -107,7 +107,7 @@ export function ConsultationForm(): JSX.Element {
             setErrors((prev) => ({ ...prev, name: undefined }));
           }}
           placeholder="Ваше имя"
-          className="w-full rounded-md border px-3 py-2"
+          className="field-input"
           required
           name="name"
         />
@@ -141,7 +141,7 @@ export function ConsultationForm(): JSX.Element {
         {errors.consent ? <p className="mt-1 text-sm text-red-600">{errors.consent}</p> : null}
       </div>
 
-      <button type="submit" disabled={isSubmitting} className="rounded-md bg-brand px-4 py-2 text-white disabled:cursor-not-allowed disabled:opacity-60">
+      <button type="submit" disabled={isSubmitting} className="btn-primary disabled:cursor-not-allowed disabled:opacity-60">
         {isSubmitting ? 'Отправка...' : 'Отправить'}
       </button>
 
