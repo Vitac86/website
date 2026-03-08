@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Script from 'next/script';
 import { usePathname, useSearchParams } from 'next/navigation';
 
@@ -33,12 +33,17 @@ type Props = {
 };
 
 const TURNSTILE_ERROR_MESSAGE = 'Не удалось подтвердить отправку. Попробуйте ещё раз.';
+const TURNSTILE_UNAVAILABLE_MESSAGE = 'Сервис проверки временно недоступен. Обновите страницу или попробуйте позже.';
+const TURNSTILE_CONFIG_MESSAGE = 'Форма временно недоступна: отсутствует конфигурация защиты.';
 
 export function ConsultationForm({ theme = 'light' }: Props): JSX.Element {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+  const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? '';
+  const isTurnstileConfigured = turnstileSiteKey.length > 0;
   const formStartedAt = useMemo(() => Date.now(), []);
+  const turnstileContainerRef = useRef<HTMLDivElement | null>(null);
+  const turnstileWidgetIdRef = useRef<string | null>(null);
 
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
@@ -49,7 +54,7 @@ export function ConsultationForm({ theme = 'light' }: Props): JSX.Element {
   const [task, setTask] = useState('');
   const [turnstileToken, setTurnstileToken] = useState('');
   const [turnstileReady, setTurnstileReady] = useState(false);
-  const [turnstileWidgetId, setTurnstileWidgetId] = useState<string | null>(null);
+  const [turnstileInitError, setTurnstileInitError] = useState(false);
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -65,16 +70,54 @@ export function ConsultationForm({ theme = 'light' }: Props): JSX.Element {
 
   useEffect(() => {
     return () => {
-      if (turnstileWidgetId && window.turnstile) {
-        window.turnstile.remove(turnstileWidgetId);
+      const widgetId = turnstileWidgetIdRef.current;
+      if (widgetId && window.turnstile) {
+        window.turnstile.remove(widgetId);
       }
+
+      turnstileWidgetIdRef.current = null;
     };
-  }, [turnstileWidgetId]);
+  }, []);
+
+  useEffect(() => {
+    if (!isTurnstileConfigured || !turnstileReady || turnstileInitError || !turnstileContainerRef.current || turnstileWidgetIdRef.current || !window.turnstile) {
+      return;
+    }
+
+    try {
+      const widgetId = window.turnstile.render(turnstileContainerRef.current, {
+        sitekey: turnstileSiteKey,
+        callback: (token) => {
+          setTurnstileToken(token);
+          setErrors((prev) => ({ ...prev, turnstile: undefined }));
+        },
+        'error-callback': () => {
+          setTurnstileToken('');
+          setErrors((prev) => ({ ...prev, turnstile: TURNSTILE_ERROR_MESSAGE }));
+        },
+        'expired-callback': () => {
+          setTurnstileToken('');
+        },
+        theme: isDark ? 'dark' : 'light'
+      });
+
+      turnstileWidgetIdRef.current = widgetId;
+    } catch {
+      setTurnstileInitError(true);
+      setErrors((prev) => ({ ...prev, turnstile: TURNSTILE_UNAVAILABLE_MESSAGE }));
+    }
+  }, [isDark, isTurnstileConfigured, turnstileInitError, turnstileReady, turnstileSiteKey]);
 
   function resetTurnstile(): void {
-    if (turnstileWidgetId && window.turnstile) {
-      window.turnstile.reset(turnstileWidgetId);
+    const widgetId = turnstileWidgetIdRef.current;
+    if (widgetId && window.turnstile) {
+      try {
+        window.turnstile.reset(widgetId);
+      } catch {
+        setTurnstileInitError(true);
+      }
     }
+
     setTurnstileToken('');
   }
 
@@ -102,7 +145,11 @@ export function ConsultationForm({ theme = 'light' }: Props): JSX.Element {
       nextErrors.consent = 'Подтвердите согласие на обработку данных';
     }
 
-    if (!turnstileToken) {
+    if (!isTurnstileConfigured) {
+      nextErrors.turnstile = TURNSTILE_CONFIG_MESSAGE;
+    } else if (turnstileInitError) {
+      nextErrors.turnstile = TURNSTILE_UNAVAILABLE_MESSAGE;
+    } else if (!turnstileToken) {
       nextErrors.turnstile = TURNSTILE_ERROR_MESSAGE;
     }
 
@@ -178,8 +225,23 @@ export function ConsultationForm({ theme = 'light' }: Props): JSX.Element {
 
   return (
     <form onSubmit={onSubmit} className={formClassName}>
-      {turnstileSiteKey ? (
-        <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" strategy="afterInteractive" onLoad={() => setTurnstileReady(true)} />
+      {isTurnstileConfigured ? (
+        <Script
+          src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
+          strategy="afterInteractive"
+          onLoad={() => {
+            if (window.turnstile?.render) {
+              setTurnstileReady(true);
+              setTurnstileInitError(false);
+              return;
+            }
+
+            setTurnstileInitError(true);
+          }}
+          onError={() => {
+            setTurnstileInitError(true);
+          }}
+        />
       ) : null}
       {!isDark ? <h3 className="text-lg font-semibold">Получить консультацию</h3> : null}
 
@@ -261,34 +323,10 @@ export function ConsultationForm({ theme = 'light' }: Props): JSX.Element {
         <input id="company" name="company" value={company} onChange={(event) => setCompany(event.target.value)} autoComplete="off" tabIndex={-1} />
       </div>
 
-      <div
-        className="min-h-16"
-        ref={(element) => {
-          if (!element || !turnstileSiteKey || !turnstileReady || turnstileWidgetId || !window.turnstile) {
-            return;
-          }
-
-          const widgetId = window.turnstile.render(element, {
-            sitekey: turnstileSiteKey,
-            callback: (token) => {
-              setTurnstileToken(token);
-              setErrors((prev) => ({ ...prev, turnstile: undefined }));
-            },
-            'error-callback': () => {
-              setTurnstileToken('');
-              setErrors((prev) => ({ ...prev, turnstile: TURNSTILE_ERROR_MESSAGE }));
-            },
-            'expired-callback': () => {
-              setTurnstileToken('');
-            },
-            theme: isDark ? 'dark' : 'light'
-          });
-
-          setTurnstileWidgetId(widgetId);
-        }}
-      />
+      <div className="min-h-16" ref={turnstileContainerRef} />
       {errors.turnstile ? <p className="text-sm text-red-500">{errors.turnstile}</p> : null}
-      {!turnstileSiteKey ? <p className="text-sm text-red-500">Форма временно недоступна. Попробуйте позже.</p> : null}
+      {!isTurnstileConfigured ? <p className="text-sm text-red-500">{TURNSTILE_CONFIG_MESSAGE}</p> : null}
+      {isTurnstileConfigured && turnstileInitError ? <p className="text-sm text-red-500">{TURNSTILE_UNAVAILABLE_MESSAGE}</p> : null}
 
       <div>
         <ConsentCheckbox
@@ -301,7 +339,7 @@ export function ConsultationForm({ theme = 'light' }: Props): JSX.Element {
         {errors.consent ? <p className="mt-1 text-sm text-red-500">{errors.consent}</p> : null}
       </div>
 
-      <button type="submit" disabled={isSubmitting || !turnstileSiteKey} className={submitClassName}>
+      <button type="submit" disabled={isSubmitting || !isTurnstileConfigured || turnstileInitError} className={submitClassName}>
         {isSubmitting ? 'Отправка...' : 'Получить поддержку'}
       </button>
 

@@ -14,6 +14,15 @@ import type { LeadPayload } from '@/types/lead';
 const TURNSTILE_FAIL_MESSAGE = 'Не удалось подтвердить отправку. Попробуйте ещё раз.';
 const RATE_LIMIT_MESSAGE = 'Слишком много запросов. Попробуйте позже.';
 const SERVICE_UNAVAILABLE_MESSAGE = 'Сервис временно недоступен. Попробуйте позже.';
+const CONFIG_UNAVAILABLE_MESSAGE = 'Форма временно недоступна из-за конфигурации. Попробуйте позже.';
+
+function isConfigError(error: unknown): boolean {
+  if (!(error instanceof Error)) {
+    return false;
+  }
+
+  return error.message === 'Redis is not configured' || error.message === 'Turnstile is not configured';
+}
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   const ip = getRequestIp(request);
@@ -23,7 +32,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     if (!rateLimit.success) {
       return NextResponse.json({ ok: false, error: RATE_LIMIT_MESSAGE }, { status: 429 });
     }
-  } catch {
+  } catch (error) {
+    if (isConfigError(error)) {
+      return NextResponse.json({ ok: false, error: CONFIG_UNAVAILABLE_MESSAGE }, { status: 503 });
+    }
+
     return NextResponse.json({ ok: false, error: SERVICE_UNAVAILABLE_MESSAGE }, { status: 500 });
   }
 
@@ -54,7 +67,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     if (!turnstile.success) {
       return NextResponse.json({ ok: false, error: TURNSTILE_FAIL_MESSAGE }, { status: 400 });
     }
-  } catch {
+  } catch (error) {
+    if (isConfigError(error)) {
+      return NextResponse.json({ ok: false, error: CONFIG_UNAVAILABLE_MESSAGE }, { status: 503 });
+    }
+
     return NextResponse.json({ ok: false, error: SERVICE_UNAVAILABLE_MESSAGE }, { status: 500 });
   }
 
@@ -81,7 +98,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     if (!duplicateSlotReserved) {
       return NextResponse.json({ ok: true });
     }
-  } catch {
+  } catch (error) {
+    if (isConfigError(error)) {
+      return NextResponse.json({ ok: false, error: CONFIG_UNAVAILABLE_MESSAGE }, { status: 503 });
+    }
+
     return NextResponse.json({ ok: false, error: SERVICE_UNAVAILABLE_MESSAGE }, { status: 500 });
   }
 
