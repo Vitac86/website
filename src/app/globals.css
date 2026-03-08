@@ -53,7 +53,7 @@ select {
 
 @layer components {
   .section-shell {
-    @apply py-12 sm:py-14 lg:py-[4.5rem];
+    @apply py-14 sm:py-16 lg:py-20;
   }
 
   .section-transition {
@@ -62,12 +62,12 @@ select {
 
   .section-transition::before {
     content: '';
-    @apply pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-slate-300/70 to-transparent;
+    @apply pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-slate-300/50 to-transparent;
   }
 
   .section-transition::after {
     content: '';
-    @apply pointer-events-none absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-white/45 to-transparent;
+    @apply pointer-events-none absolute inset-x-0 top-0 h-14 bg-gradient-to-b from-white/60 to-transparent;
   }
 
   .surface-panel {
@@ -100,7 +100,7 @@ select {
   }
 
   .btn-base {
-    @apply inline-flex items-center justify-center rounded-xl px-4 py-2.5 text-sm font-semibold tracking-[0.01em] transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40;
+    @apply inline-flex items-center justify-center rounded-xl px-4 py-2.5 text-sm font-semibold tracking-[0.01em] transition-all duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40;
   }
 
   .btn-primary {
@@ -124,7 +124,7 @@ select {
   }
 
   .header-search-input {
-    @apply border-slate-300/70 bg-white/90 shadow-[0_12px_28px_-20px_rgba(15,36,57,0.95)];
+    @apply rounded-lg border-slate-300/70 bg-white/90 py-2 shadow-[0_12px_28px_-20px_rgba(15,36,57,0.95)] transition-all duration-300 focus-visible:border-brand/40;
   }
 
   .form-shell {
@@ -132,11 +132,11 @@ select {
   }
 
   .section-title {
-    @apply text-2xl font-semibold leading-tight sm:text-3xl;
+    @apply text-2xl font-semibold leading-tight sm:text-3xl lg:text-4xl;
   }
 
   .section-description {
-    @apply mt-4 max-w-3xl text-base leading-7 text-slate-600;
+    @apply mt-4 max-w-3xl text-base leading-7 text-slate-600 sm:text-lg sm:leading-8;
   }
 
   .section-kicker {
