@@ -10,6 +10,8 @@ import { normalizePhone } from '@/lib/lead/validate';
 type FormErrors = {
   name?: string;
   phone?: string;
+  email?: string;
+  task?: string;
   consent?: string;
   submit?: string;
 };
@@ -54,6 +56,14 @@ export function ConsultationForm({ theme = 'light' }: Props): JSX.Element {
       nextErrors.phone = 'Введите минимум 10 цифр телефона';
     }
 
+    if (email.trim().length > 0 && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      nextErrors.email = 'Введите корректный email';
+    }
+
+    if (task.trim().length > 0 && task.trim().length < 5) {
+      nextErrors.task = 'Опишите задачу хотя бы в 5 символов';
+    }
+
     if (!consent) {
       nextErrors.consent = 'Подтвердите согласие на обработку данных';
     }
@@ -63,6 +73,11 @@ export function ConsultationForm({ theme = 'light' }: Props): JSX.Element {
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();
+
+    if (isSubmitting) {
+      return;
+    }
+
     setIsSuccess(false);
 
     const nextErrors = validateForm();
@@ -89,9 +104,10 @@ export function ConsultationForm({ theme = 'light' }: Props): JSX.Element {
           company,
           page: pathname,
           utm: Object.keys(utm).length > 0 ? utm : undefined,
-          email,
-          industry,
-          task
+          email: email.trim() || undefined,
+          industry: industry.trim() || undefined,
+          task: task.trim() || undefined,
+          source: 'consultation_form'
         })
       });
 
@@ -165,7 +181,17 @@ export function ConsultationForm({ theme = 'light' }: Props): JSX.Element {
 
         <div>
           <label className={`mb-2 block text-xs font-bold uppercase tracking-[0.08em] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Email компании</label>
-          <input value={email} onChange={(event) => setEmail(event.target.value)} type="email" placeholder="name@company.com" className={fieldClassName} />
+          <input
+            value={email}
+            onChange={(event) => {
+              setEmail(event.target.value);
+              setErrors((prev) => ({ ...prev, email: undefined }));
+            }}
+            type="email"
+            placeholder="name@company.com"
+            className={fieldClassName}
+          />
+          {errors.email ? <p className="mt-1 text-sm text-red-500">{errors.email}</p> : null}
         </div>
       </div>
 
@@ -173,12 +199,16 @@ export function ConsultationForm({ theme = 'light' }: Props): JSX.Element {
         <label className={`mb-2 block text-xs font-bold uppercase tracking-[0.08em] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Задача по обработке</label>
         <textarea
           value={task}
-          onChange={(event) => setTask(event.target.value)}
+          onChange={(event) => {
+            setTask(event.target.value);
+            setErrors((prev) => ({ ...prev, task: undefined }));
+          }}
           placeholder="Опишите текущую производственную задачу..."
           rows={3}
           className={fieldClassName}
         />
       </div>
+      {errors.task ? <p className="-mt-2 text-sm text-red-500">{errors.task}</p> : null}
 
       <div className="hidden" aria-hidden="true">
         <label htmlFor="company">Компания</label>
