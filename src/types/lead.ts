@@ -9,6 +9,8 @@ export type LeadPayload = {
   page?: string;
   source?: string;
   utm?: Record<string, string>;
+  turnstileToken?: string;
+  formStartedAt?: number;
 };
 
 export type LeadResult = {

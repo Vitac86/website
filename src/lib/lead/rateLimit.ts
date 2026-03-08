@@ -1,20 +1,51 @@
-const bucket = new Map<string, { count: number; ts: number }>();
-const WINDOW_MS = 10 * 60_000;
-const LIMIT = 5;
+import { leadConstants } from '@/lib/lead/constants';
+import { leadRedis } from '@/lib/lead/redis';
 
-export function checkRateLimit(key: string): boolean {
+type RateLimitResult = {
+  success: boolean;
+};
+
+export async function checkRateLimit(key: string): Promise<RateLimitResult> {
   const now = Date.now();
-  const entry = bucket.get(key);
+  const windowMs = parseDurationToMs(leadConstants.rateLimitWindow);
+  const windowStart = now - windowMs;
+  const redisKey = `rl:lead:${key}`;
 
-  if (!entry || now - entry.ts > WINDOW_MS) {
-    bucket.set(key, { count: 1, ts: now });
-    return true;
+  const pipelineResult = await leadRedis.pipeline<number>([
+    ['ZREMRANGEBYSCORE', redisKey, 0, windowStart],
+    ['ZCARD', redisKey],
+    ['ZADD', redisKey, now, `${now}-${crypto.randomUUID()}`],
+    ['PEXPIRE', redisKey, windowMs]
+  ]);
+
+  const count = pipelineResult[1];
+
+  return { success: count < leadConstants.rateLimitMax };
+}
+
+function parseDurationToMs(value: string): number {
+  const normalized = value.trim().toLowerCase();
+  const match = normalized.match(/^(\d+)\s*(ms|s|m|h|d)$/);
+
+  if (!match) {
+    return 30 * 60_000;
   }
 
-  if (entry.count >= LIMIT) {
-    return false;
+  const amount = Number.parseInt(match[1], 10);
+  const unit = match[2];
+
+  if (unit === 'ms') {
+    return amount;
+  }
+  if (unit === 's') {
+    return amount * 1_000;
+  }
+  if (unit === 'm') {
+    return amount * 60_000;
+  }
+  if (unit === 'h') {
+    return amount * 60 * 60_000;
   }
 
-  bucket.set(key, { count: entry.count + 1, ts: entry.ts });
-  return true;
+  return amount * 24 * 60 * 60_000;
 }
