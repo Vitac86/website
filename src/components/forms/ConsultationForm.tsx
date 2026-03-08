@@ -1,11 +1,22 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import Script from 'next/script';
 import { usePathname, useSearchParams } from 'next/navigation';
 
 import { ConsentCheckbox } from '@/components/forms/ConsentCheckbox';
 import { PhoneInput } from '@/components/forms/PhoneInput';
 import { normalizePhone } from '@/lib/lead/validate';
+
+declare global {
+  interface Window {
+    turnstile?: {
+      render: (container: HTMLElement, options: { sitekey: string; callback: (token: string) => void; 'error-callback': () => void; 'expired-callback': () => void; theme?: 'light' | 'dark' }) => string;
+      reset: (widgetId: string) => void;
+      remove: (widgetId: string) => void;
+    };
+  }
+}
 
 type FormErrors = {
   name?: string;
@@ -13,6 +24,7 @@ type FormErrors = {
   email?: string;
   task?: string;
   consent?: string;
+  turnstile?: string;
   submit?: string;
 };
 
@@ -20,9 +32,13 @@ type Props = {
   theme?: 'light' | 'dark';
 };
 
+const TURNSTILE_ERROR_MESSAGE = 'Не удалось подтвердить отправку. Попробуйте ещё раз.';
+
 export function ConsultationForm({ theme = 'light' }: Props): JSX.Element {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+  const formStartedAt = useMemo(() => Date.now(), []);
 
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
@@ -31,6 +47,9 @@ export function ConsultationForm({ theme = 'light' }: Props): JSX.Element {
   const [industry, setIndustry] = useState('Авиация');
   const [email, setEmail] = useState('');
   const [task, setTask] = useState('');
+  const [turnstileToken, setTurnstileToken] = useState('');
+  const [turnstileReady, setTurnstileReady] = useState(false);
+  const [turnstileWidgetId, setTurnstileWidgetId] = useState<string | null>(null);
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -43,6 +62,21 @@ export function ConsultationForm({ theme = 'light' }: Props): JSX.Element {
   const submitClassName = isDark
     ? 'w-full rounded-xl bg-[linear-gradient(135deg,#1d4ed8,#0d426f)] px-4 py-3 text-sm font-semibold text-white shadow-[0_14px_26px_-18px_rgba(30,64,175,0.95)] transition-all duration-300 hover:-translate-y-0.5 hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60'
     : 'btn-primary w-full disabled:cursor-not-allowed disabled:opacity-60';
+
+  useEffect(() => {
+    return () => {
+      if (turnstileWidgetId && window.turnstile) {
+        window.turnstile.remove(turnstileWidgetId);
+      }
+    };
+  }, [turnstileWidgetId]);
+
+  function resetTurnstile(): void {
+    if (turnstileWidgetId && window.turnstile) {
+      window.turnstile.reset(turnstileWidgetId);
+    }
+    setTurnstileToken('');
+  }
 
   function validateForm(): FormErrors {
     const nextErrors: FormErrors = {};
@@ -66,6 +100,10 @@ export function ConsultationForm({ theme = 'light' }: Props): JSX.Element {
 
     if (!consent) {
       nextErrors.consent = 'Подтвердите согласие на обработку данных';
+    }
+
+    if (!turnstileToken) {
+      nextErrors.turnstile = TURNSTILE_ERROR_MESSAGE;
     }
 
     return nextErrors;
@@ -107,13 +145,18 @@ export function ConsultationForm({ theme = 'light' }: Props): JSX.Element {
           email: email.trim() || undefined,
           industry: industry.trim() || undefined,
           task: task.trim() || undefined,
-          source: 'consultation_form'
+          source: 'consultation_form',
+          turnstileToken,
+          formStartedAt
         })
       });
 
       const data = (await response.json()) as { ok: boolean; error?: string };
-      if (!data.ok) {
+      if (!response.ok || !data.ok) {
         setErrors({ submit: data.error ?? 'Ошибка отправки' });
+        if (response.status === 400) {
+          resetTurnstile();
+        }
         return;
       }
 
@@ -126,8 +169,10 @@ export function ConsultationForm({ theme = 'light' }: Props): JSX.Element {
       setIndustry('Авиация');
       setErrors({});
       setIsSuccess(true);
+      resetTurnstile();
     } catch {
       setErrors({ submit: 'Не удалось отправить форму. Попробуйте ещё раз.' });
+      resetTurnstile();
     } finally {
       setIsSubmitting(false);
     }
@@ -135,6 +180,9 @@ export function ConsultationForm({ theme = 'light' }: Props): JSX.Element {
 
   return (
     <form onSubmit={onSubmit} className={formClassName}>
+      {turnstileSiteKey ? (
+        <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" strategy="afterInteractive" onLoad={() => setTurnstileReady(true)} />
+      ) : null}
       {!isDark ? <h3 className="text-lg font-semibold">Получить консультацию</h3> : null}
 
       <div className="grid gap-4 sm:grid-cols-2">
@@ -215,6 +263,35 @@ export function ConsultationForm({ theme = 'light' }: Props): JSX.Element {
         <input id="company" name="company" value={company} onChange={(event) => setCompany(event.target.value)} autoComplete="off" tabIndex={-1} />
       </div>
 
+      <div
+        className="min-h-16"
+        ref={(element) => {
+          if (!element || !turnstileSiteKey || !turnstileReady || turnstileWidgetId || !window.turnstile) {
+            return;
+          }
+
+          const widgetId = window.turnstile.render(element, {
+            sitekey: turnstileSiteKey,
+            callback: (token) => {
+              setTurnstileToken(token);
+              setErrors((prev) => ({ ...prev, turnstile: undefined }));
+            },
+            'error-callback': () => {
+              setTurnstileToken('');
+              setErrors((prev) => ({ ...prev, turnstile: TURNSTILE_ERROR_MESSAGE }));
+            },
+            'expired-callback': () => {
+              setTurnstileToken('');
+            },
+            theme: isDark ? 'dark' : 'light'
+          });
+
+          setTurnstileWidgetId(widgetId);
+        }}
+      />
+      {errors.turnstile ? <p className="text-sm text-red-500">{errors.turnstile}</p> : null}
+      {!turnstileSiteKey ? <p className="text-sm text-red-500">Форма временно недоступна. Попробуйте позже.</p> : null}
+
       <div>
         <ConsentCheckbox
           checked={consent}
@@ -226,7 +303,7 @@ export function ConsultationForm({ theme = 'light' }: Props): JSX.Element {
         {errors.consent ? <p className="mt-1 text-sm text-red-500">{errors.consent}</p> : null}
       </div>
 
-      <button type="submit" disabled={isSubmitting} className={submitClassName}>
+      <button type="submit" disabled={isSubmitting || !turnstileSiteKey} className={submitClassName}>
         {isSubmitting ? 'Отправка...' : 'Получить поддержку'}
       </button>
 
