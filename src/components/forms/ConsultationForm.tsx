@@ -154,9 +154,7 @@ export function ConsultationForm({ theme = 'light' }: Props): JSX.Element {
       const data = (await response.json()) as { ok: boolean; error?: string };
       if (!response.ok || !data.ok) {
         setErrors({ submit: data.error ?? 'Ошибка отправки' });
-        if (response.status === 400) {
-          resetTurnstile();
-        }
+        resetTurnstile();
         return;
       }
 

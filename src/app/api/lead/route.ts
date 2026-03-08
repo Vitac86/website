@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { leadConstants } from '@/lib/lead/constants';
-import { canProcessDuplicateLead, markDuplicateLeadProcessed } from '@/lib/lead/duplicate';
+import { releaseDuplicateLeadSlot, reserveDuplicateLeadSlot } from '@/lib/lead/duplicate';
 import { getRequestIp } from '@/lib/lead/ip';
 import { sendLeadEmail } from '@/lib/lead/providers/email';
 import { saveLeadToDb } from '@/lib/lead/providers/db';
@@ -58,13 +58,27 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ ok: false, error: SERVICE_UNAVAILABLE_MESSAGE }, { status: 500 });
   }
 
-  if (typeof body.formStartedAt !== 'number' || Date.now() - body.formStartedAt < leadConstants.minFillMs) {
+  const formStartedAt = body.formStartedAt;
+  if (typeof formStartedAt !== 'number' || !Number.isFinite(formStartedAt)) {
     return NextResponse.json({ ok: true });
   }
 
+  const now = Date.now();
+  const fillDurationMs = now - formStartedAt;
+
+  if (fillDurationMs < leadConstants.minFillMs) {
+    return NextResponse.json({ ok: true });
+  }
+
+  if (fillDurationMs < 0 || fillDurationMs > leadConstants.maxFillAgeMs) {
+    return NextResponse.json({ ok: true });
+  }
+
+  let duplicateSlotReserved = false;
+
   try {
-    const canProcess = await canProcessDuplicateLead(validation.normalized.name, validation.normalized.phone);
-    if (!canProcess) {
+    duplicateSlotReserved = await reserveDuplicateLeadSlot(validation.normalized.name, validation.normalized.phone);
+    if (!duplicateSlotReserved) {
       return NextResponse.json({ ok: true });
     }
   } catch {
@@ -82,13 +96,15 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       await sendLeadEmail(validation.normalized);
     }
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Ошибка провайдера';
-    return NextResponse.json({ ok: false, error: message }, { status: 500 });
-  }
+    if (duplicateSlotReserved) {
+      try {
+        await releaseDuplicateLeadSlot(validation.normalized.name, validation.normalized.phone);
+      } catch (releaseError) {
+        console.error('Failed to release duplicate slot after provider error', releaseError);
+      }
+    }
 
-  try {
-    await markDuplicateLeadProcessed(validation.normalized.name, validation.normalized.phone);
-  } catch {
+    console.error('Lead provider failed', error);
     return NextResponse.json({ ok: false, error: SERVICE_UNAVAILABLE_MESSAGE }, { status: 500 });
   }
 
